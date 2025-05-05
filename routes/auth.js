@@ -32,26 +32,49 @@ module.exports = function(passport) {
   // Sign-up routes
   router.get('/signup', (req, res) => res.render('signup'));
   router.post('/signup', async (req, res) => {
+    const { username, password } = req.body;
     try {
-      await new User(req.body).save();
+      // Check if username is already in use
+      const existing = await User.findOne({ username });
+      if (existing) {
+        req.flash('error', 'Username already taken.');
+        return res.redirect('/signup');
+      }
+      // Create and save new user
+      const user = new User({ username, password });
+      await user.save();
       req.flash('success', 'Account created! Please log in.');
-      res.redirect('/login');
-    } catch (e) {
-      req.flash('error', 'Username already taken.');
-      res.redirect('/signup');
+      return res.redirect('/login');
+    } catch (err) {
+      console.error(err);
+      req.flash('error', 'Something went wrong. Please try again.');
+      return res.redirect('/signup');
     }
   });
 
   // Login routes
   router.get('/login', (req, res) => res.render('login'));
-  router.post(
-    '/login',
-    passport.authenticate('local', {
-      successRedirect: '/trails',
-      failureRedirect: '/login',
-      failureFlash: true
-    })
-  );
+  router.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) {
+        console.error(err);
+        req.flash('error', 'Something went wrong. Please try again.');
+        return res.redirect('/login');
+      }
+      if (!user) {
+        req.flash('error', info.message);
+        return res.redirect('/login');
+      }
+      req.logIn(user, (err) => {
+        if (err) {
+          console.error(err);
+          req.flash('error', 'Login failed. Please try again.');
+          return res.redirect('/login');
+        }
+        return res.redirect('/trails');
+      });
+    })(req, res, next);
+  });
 
   // Logout
   router.get('/logout', (req, res) => {
