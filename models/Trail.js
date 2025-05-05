@@ -4,6 +4,8 @@ const Schema = mongoose.Schema;
 const trailSchema = new Schema({
   name: String,
   location: String,
+  latitude: Number,
+  longitude: Number,
   difficulty: String,
   distance: Number,
   altitudeChange: Number,

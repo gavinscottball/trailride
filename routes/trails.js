@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Trail = require('../models/Trail');
 const Comment = require('../models/Comment');
+const fetch = require('node-fetch');
+const WEATHER_KEY = process.env.WEATHER_KEY;
 
 // PUBLIC listing of trails
 router.get('/', async (req, res) => {
@@ -11,12 +13,44 @@ router.get('/', async (req, res) => {
 
 // PUBLIC trail detail page
 router.get('/:id', async (req, res) => {
+  // Fetch trail and comments
   const trail = await Trail.findById(req.params.id);
   if (!trail) {
     return res.redirect('/trails');
   }
   const comments = await Comment.find({ trail: req.params.id }).populate('user');
-  res.render('trail', { trail, comments, user: req.user });
+
+  // Initialize weather and AQI
+  let weather = null;
+  let aqi = null;
+
+  // Fetch live data if API key and coordinates are available
+  if (WEATHER_KEY && trail.latitude != null && trail.longitude != null) {
+    try {
+      // Current weather
+      const wRes = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?lat=${trail.latitude}&lon=${trail.longitude}&units=imperial&appid=${WEATHER_KEY}`
+      );
+      const wJson = await wRes.json();
+      weather = {
+        temp: wJson.main.temp,
+        wind: wJson.wind.speed,
+        condition: wJson.weather[0].main,
+        icon: wJson.weather[0].icon
+      };
+
+      // Air Quality Index
+      const aRes = await fetch(
+        `https://api.openweathermap.org/data/2.5/air_pollution?lat=${trail.latitude}&lon=${trail.longitude}&appid=${WEATHER_KEY}`
+      );
+      const aJson = await aRes.json();
+      aqi = aJson.list?.[0]?.main?.aqi;
+    } catch (e) {
+      console.error('Weather fetch error:', e);
+    }
+  }
+
+  res.render('trail', { trail, comments, user: req.user, weather, aqi });
 });
 
 // COMMENT creation
