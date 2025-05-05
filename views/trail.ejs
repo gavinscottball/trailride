@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>
+    <%= trail.name %> – TrailRide Advisor
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">TrailRide Advisor</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <% if (user) { %>
+            <li class="nav-item"><a class="nav-link" href="/trails">Trails</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            <% } else { %>
+              <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+              <% } %>
+                <!-- Theme toggle -->
+                <li class="nav-item">
+                  <div class="form-check form-switch mt-2 ms-3">
+                    <input class="form-check-input" type="checkbox" id="theme-toggle">
+                    <label class="form-check-label text-white" for="theme-toggle">Dark Mode</label>
+                  </div>
+                </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-4">
+    <% if (user) { %>
+      <p>
+        <a href="/trails">← Back to trails</a> |
+        Welcome, <%= user.username %>! <a href="/logout">Logout</a>
+      </p>
+    <% } else { %>
+      <p>
+        <a href="/trails">← Back to trails</a> |
+        <a href="/login">Login</a> or <a href="/signup">Sign Up</a>
+      </p>
+    <% } %>
+    <h2>
+      <%= trail.name %>
+    </h2>
+    <p><strong>Location:</strong>
+      <%= trail.location || 'N/A' %>
+    </p>
+    <p>
+      <%= trail.description || 'No description.' %>
+    </p>
+
+    <% if (trail.pictures && trail.pictures.length) { %>
+      <div class="row g-2 mb-4">
+        <% trail.pictures.forEach(url => { %>
+          <div class="col-md-4">
+            <img src="<%= url %>" class="img-fluid rounded shadow-sm" alt="<%= trail.name %>">
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <div class="card mb-4 shadow-sm">
+          <div class="card-body">
+            <h2 class="card-title">
+              <%= trail.name %>
+            </h2>
+            <p class="card-text"><strong>Location:</strong>
+              <%= trail.location %>
+            </p>
+            <p class="card-text"><strong>Difficulty:</strong>
+              <%= trail.difficulty %>
+            </p>
+            <p class="card-text"><strong>Distance:</strong>
+              <%= trail.distance %> mi
+            </p>
+            <p class="card-text"><strong>Altitude change:</strong> <%= trail.altitudeChange %> ft</p>
+            <p class="card-text"><strong>Start Elevation:</strong>
+              <%= trail.startingElevation %> ft
+            </p>
+            <p class="card-text">
+              <%= trail.description %>
+            </p>
+          </div>
+    </div>
+
+    <% if (trail.relatedTrails && trail.relatedTrails.length) { %>
+      <div class="mb-4">
+        <h4>Related Trails</h4>
+        <ul class="list-group">
+          <% trail.relatedTrails.forEach(r=> { %>
+            <li class="list-group-item"><a href="/trails/<%= r._id %>">
+                <%= r.name %>
+              </a></li>
+            <% }) %>
+        </ul>
+      </div>
+      <% } %>
+
+        <h3>Comments</h3>
+        <ul class="comments-list">
+          <% comments.forEach(c=> { %>
+            <li class="mb-2">
+              <div class="d-flex justify-content-between align-items-center">
+                <span><strong>
+                    <%= c.user.username %>:
+                  </strong>
+                  <%= c.text %>
+                </span>
+                <span>
+                  <% if (user) { %>
+                    <form action="/trails/<%= trail._id %>/comment/<%= c._id %>/vote?type=up" method="POST"
+                          class="vote-form d-inline me-1" data-type="up">
+                      <button type="button" class="btn btn-sm btn-outline-success">
+                        👍 <span class="upvote-count"><%= c.upvotedBy.length %></span>
+                      </button>
+                    </form>
+                    <form action="/trails/<%= trail._id %>/comment/<%= c._id %>/vote?type=down" method="POST"
+                          class="vote-form d-inline" data-type="down">
+                      <button type="button" class="btn btn-sm btn-outline-danger">
+                        👎 <span class="downvote-count"><%= c.downvotedBy.length %></span>
+                      </button>
+                    </form>
+                  <% } else { %>
+                    <small><a href="/login">Log in</a> to vote</small>
+                  <% } %>
+                </span>
+              </div>
+            </li>
+            <% }) %>
+        </ul>
+
+        <% if (user) { %>
+          <h4>Add a comment</h4>
+          <form action="/trails/<%= trail._id %>/comment" method="POST">
+            <textarea name="text" rows="3" class="form-control mb-2" placeholder="Your thoughts…" required></textarea>
+            <button type="submit" class="btn btn-primary btn-sm">Post Comment</button>
+          </form>
+          <% } else { %>
+            <p><a href="/login">Log in</a> to leave a comment.</p>
+            <% } %>
+
+  </div> <!-- /.container -->
+  <!-- Bootstrap JS (for the hamburger menu) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Theme toggle logic -->
+  <script>
+    (function () {
+      const toggle = document.getElementById('theme-toggle');
+      const saved = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = saved || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+      if (toggle) toggle.checked = (theme === 'dark');
+      toggle.addEventListener('change', function () {
+        const t = this.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+        localStorage.setItem('theme', t);
+      });
+    })();
+</script>
+  <script>
+    // AJAX vote forms
+    document.querySelectorAll('form.vote-form').forEach(form => {
+      form.addEventListener('click', e => {
+        if (e.target.tagName !== 'BUTTON') return;
+        e.preventDefault();
+        fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }).then(res => res.json())
+          .then(data => {
+            const container = form.closest('div.d-flex');
+            container.querySelector('.upvote-count').textContent = data.upvotes;
+            container.querySelector('.downvote-count').textContent = data.downvotes;
+          });
+      });
+    });
+  </script>
+</body>
+
+</html>

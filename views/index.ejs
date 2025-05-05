@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>TrailRide Advisor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">TrailRide Advisor</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <% if (user) { %>
+            <li class="nav-item"><a class="nav-link" href="/trails">Trails</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+            <% } else { %>
+              <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+              <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+              <% } %>
+                <!-- Theme toggle -->
+                <li class="nav-item">
+                  <div class="form-check form-switch mt-2 ms-3">
+                    <input class="form-check-input" type="checkbox" id="theme-toggle">
+                    <label class="form-check-label text-white" for="theme-toggle">Dark Mode</label>
+                  </div>
+                </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container mt-4">
+  <% if (user) { %>
+    <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
+    <% } else { %>
+      <a href="/signup">Sign Up</a> | <a href="/login">Login</a>
+      <% } %>
+
+        <h1>TrailRide Advisor</h1>
+        <p>Get started by <a href="/signup">signing up</a> or <a href="/login">logging in</a>.</p>
+        </div> <!-- /.container -->
+        <!-- Bootstrap JS (for the hamburger menu) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Theme toggle logic -->
+        <script>
+          (function () {
+            const toggle = document.getElementById('theme-toggle');
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            if (toggle) toggle.checked = (theme === 'dark');
+            toggle.addEventListener('change', function () {
+              const t = this.checked ? 'dark' : 'light';
+              document.documentElement.setAttribute('data-theme', t);
+              localStorage.setItem('theme', t);
+            });
+          })();
+        </script>
+</body>
+
+</html>

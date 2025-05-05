@@ -1,0 +1,196 @@
+
+/* Custom styles for TrailRide Advisor */
+
+/* Light-mode defaults */
+:root,
+:root[data-theme="light"] {
+  --primary-color: #0066cc;
+  --primary-hover: #005bb5;
+  --secondary-color: #f4f4f4;
+  --accent-color: #ff6600;
+  --accent-hover: #e65c00;
+  --heading-color: #333333;
+  --body-bg: #f8f9fa;
+  --body-color: #212529;
+}
+
+/* Dark-mode overrides */
+:root[data-theme="dark"] {
+  --font-family-base: 'Roboto', sans-serif;
+  --primary-color: #66aaff;
+  --primary-hover: #99cfff;
+  --secondary-color: #2e2e2e;
+  --accent-color: #ff9900;
+  --accent-hover: #ffb84d;
+  --heading-color: #f8f9fa;
+  --body-bg: #212529;
+  --body-color: #e9ecef;
+
+  /*—for dark background on cards, forms, etc.—*/
+  body {
+    background-color: var(--body-bg);
+    color: var(--body-color);
+  }
+
+  /* Make cards and panels dark */
+  .card,
+  .card-body,
+  .navbar,
+  .navbar-dark .navbar-nav,
+  .dropdown-menu {
+    background-color: var(--secondary-color) !important;
+    color: var(--body-color) !important;
+  }
+
+  /* Inputs and textareas */
+  input.form-control,
+  textarea {
+    background-color: var(--secondary-color);
+    color: var(--body-color);
+    border-color: #444; /* or a darker contrast */
+  }
+}
+
+/* Light-mode navbar styling */
+:root[data-theme="light"] .navbar {
+  background-color: var(--primary-color) !important;
+}
+:root[data-theme="light"] .navbar-brand,
+:root[data-theme="light"] .nav-link {
+  color: #ffffff !important;
+}
+:root[data-theme="light"] .navbar-brand:hover,
+:root[data-theme="light"] .nav-link:hover {
+  color: var(--accent-color) !important;
+}
+
+/* Links in dark mode */
+[data-theme="dark"] a {
+  color: var(--accent-color);
+}
+[data-theme="dark"] a:hover {
+  color: var(--primary-color);
+}
+
+/* Toggle icon (if needed) */
+.navbar-dark .navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* Smooth transitions */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Global styles */
+body {
+  background-color: var(--body-bg);
+  color: var(--body-color);
+  font-family: var(--font-family-base);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* Navbar overrides */
+.navbar {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+.nav-link {
+  color: #ffffff !important;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.nav-link:hover {
+  color: var(--accent-color) !important;
+}
+
+/* Card styling */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+}
+.card.shadow-sm {
+  transition: transform 0.1s ease-in-out;
+}
+.card.shadow-sm:hover {
+  transform: translateY(-2px);
+}
+.card-title a {
+  color: var(--heading-color);
+  text-decoration: none;
+}
+.card-title a:hover {
+  color: var(--primary-color);
+}
+
+/* Button styling */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+/* List group links */
+.list-group-item a {
+  color: var(--body-color);
+}
+.list-group-item a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+/* Forms and inputs */
+input.form-control,
+textarea {
+  border-radius: 0.25rem;
+  border: 1px solid #ced4da;
+  padding: 0.5rem;
+  width: 100%;
+}
+textarea {
+  resize: vertical;
+}
+form button {
+  margin-top: 0.5rem;
+}
+
+/* Comments list */
+ul.comments-list {
+  list-style: none;
+  padding: 0;
+}
+ul.comments-list li {
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.75rem 0;
+}
+
+/* Utility */
+.mb-4 {
+  margin-bottom: 1.5rem !important;
+}
+.mt-5 {
+  margin-top: 3rem !important;
+}
