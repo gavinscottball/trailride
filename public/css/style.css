@@ -201,6 +201,17 @@ ul.comments-list li {
   height: auto !important;
 }
 
+/* Current conditions container */
+.conditions-box {
+  background-color: #f8f9fa; /* light mode */
+  color: #212529;
+}
+
+:root[data-theme="dark"] .conditions-box {
+  background-color: var(--secondary-color);
+  color: var(--body-color);
+}
+
 /* Center hero image at top of trail page */
 .trail-hero {
   display: block;
