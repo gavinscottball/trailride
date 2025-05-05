@@ -43,6 +43,15 @@
   </nav>
   <div class="container mt-4">
     
+    <% if (trail.pictures && trail.pictures.length) { %>
+      <div class="row g-2 mb-4">
+        <% trail.pictures.forEach(url => { %>
+          <div class="col-md-4">
+            <img src="<%= url %>" class="img-fluid rounded shadow-sm" alt="<%= trail.name %>">
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
 
     <div class="card mb-4 shadow-sm">
           <div class="card-body">
@@ -53,7 +62,7 @@
               <div class="mb-3 p-2 bg-light rounded text-dark">
                 <h6>Current Conditions</h6>
                 <div class="d-flex align-items-center">
-                  <img src="https://openweathermap.org/img/wn/<%= weather.icon %>@2x.png" alt="<%= weather.condition %>">
+                  <img src="/uploads/openweathermapicon.png" alt="<%= weather.condition %>">
                   <div class="ms-2">
                     <small>
                       <strong>Temp:</strong> <%= weather.temp %>°F |
