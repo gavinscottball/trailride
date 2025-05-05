@@ -6,6 +6,8 @@ const multer = require('multer');
 const passport = require('passport');
 const flash = require('connect-flash');
 const path = require('path');
+// Load environment variables
+require('dotenv').config();
 
 // Load models
 require('./models/User');
@@ -31,8 +33,9 @@ const authRoutes = require('./routes/auth')(passport);
 const app = express();
 // Serve static files from "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
-// Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/trailride', { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB using the environment variable if available
+const dbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/trailride';
+mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
