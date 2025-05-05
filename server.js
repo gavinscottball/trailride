@@ -70,7 +70,18 @@ app.use((req, res, next) => {
 app.use('/', authRoutes);
 app.use('/trails', require('./routes/trails'));
 
+
 app.get('/', (req, res) => res.render('index'));
+
+// About page
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+// References page
+app.get('/references', (req, res) => {
+  res.render('references');
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
