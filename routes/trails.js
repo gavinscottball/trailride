@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const Trail = require('../models/Trail');
 const Comment = require('../models/Comment');
-const fetch = require('node-fetch');
 const WEATHER_KEY = process.env.WEATHER_KEY;
 
 // PUBLIC listing of trails
