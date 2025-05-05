@@ -197,6 +197,14 @@ ul.comments-list li {
 
 /* Weather icon sizing */
 .weather-icon {
-  width: 48px !important;
+  width: 32px !important;
   height: auto !important;
+}
+
+/* Center hero image at top of trail page */
+.trail-hero {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
 }
