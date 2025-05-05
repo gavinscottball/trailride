@@ -38,15 +38,22 @@
     </div>
   </nav>
   <div class="container mt-4">
-  <% if (user) { %>
-    <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
-    <% } else { %>
-      <a href="/signup">Sign Up</a> | <a href="/login">Login</a>
-      <% } %>
-
-        <h1>TrailRide Advisor</h1>
-        <p>Get started by <a href="/signup">signing up</a> or <a href="/login">logging in</a>.</p>
-        </div> <!-- /.container -->
+    <div class="row justify-content-center">
+      <div class="col-md-8 text-center">
+        <h1 class="display-4 mb-4">TrailRide Advisor</h1>
+        <p class="lead mb-4">Explore and discover trails before signing up, or create an account to leave comments and save your favorites.</p>
+        <div class="mb-4">
+          <a href="/trails" class="btn btn-primary btn-lg me-2">View Trails</a>
+          <% if (user) { %>
+            <a href="/trails" class="btn btn-outline-light btn-lg">Go to Trails</a>
+          <% } else { %>
+            <a href="/signup" class="btn btn-outline-light btn-lg me-2">Sign Up</a>
+            <a href="/login" class="btn btn-outline-light btn-lg">Login</a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
         <!-- Bootstrap JS (for the hamburger menu) -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
