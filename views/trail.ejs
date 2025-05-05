@@ -42,61 +42,29 @@
     </div>
   </nav>
   <div class="container mt-4">
-    <% if (weather) { %>
-      <div class="mb-4 p-3 bg-light rounded shadow-sm">
-        <h5>Current Conditions</h5>
-        <div class="d-flex align-items-center">
-          <img src="https://openweathermap.org/img/wn/<%= weather.icon %>@2x.png" alt="<%= weather.condition %>">
-          <div class="ms-3">
-            <p class="mb-1">
-              <strong>Temp:</strong> <%= weather.temp %>°F<br>
-              <strong>Wind:</strong> <%= weather.wind %> mph<br>
-              <strong>Condition:</strong> <%= weather.condition %>
-            </p>
-            <p class="mb-0">
-              <strong>AQI:</strong> <%= aqi %>
-              <% if (aqi === 1) { %> (Good) <% } else if (aqi === 2) { %> (Fair) <% } else if (aqi === 3) { %> (Moderate) <% } else if (aqi === 4) { %> (Poor) <% } else if (aqi === 5) { %> (Very Poor) <% } %>
-            </p>
-          </div>
-        </div>
-      </div>
-    <% } %>
-    <% if (user) { %>
-      <p>
-        <a href="/trails">← Back to trails</a> |
-        Welcome, <%= user.username %>! <a href="/logout">Logout</a>
-      </p>
-    <% } else { %>
-      <p>
-        <a href="/trails">← Back to trails</a> |
-        <a href="/login">Login</a> or <a href="/signup">Sign Up</a>
-      </p>
-    <% } %>
-    <h2>
-      <%= trail.name %>
-    </h2>
-    <p><strong>Location:</strong>
-      <%= trail.location || 'N/A' %>
-    </p>
-    <p>
-      <%= trail.description || 'No description.' %>
-    </p>
-
-    <% if (trail.pictures && trail.pictures.length) { %>
-      <div class="row g-2 mb-4">
-        <% trail.pictures.forEach(url => { %>
-          <div class="col-md-4">
-            <img src="<%= url %>" class="img-fluid rounded shadow-sm" alt="<%= trail.name %>">
-          </div>
-        <% }) %>
-      </div>
-    <% } %>
+    
 
     <div class="card mb-4 shadow-sm">
           <div class="card-body">
             <h2 class="card-title">
               <%= trail.name %>
             </h2>
+            <% if (weather) { %>
+              <div class="mb-3 p-2 bg-light rounded text-dark">
+                <h6>Current Conditions</h6>
+                <div class="d-flex align-items-center">
+                  <img src="https://openweathermap.org/img/wn/<%= weather.icon %>@2x.png" alt="<%= weather.condition %>">
+                  <div class="ms-2">
+                    <small>
+                      <strong>Temp:</strong> <%= weather.temp %>°F |
+                      <strong>Wind:</strong> <%= weather.wind %> mph |
+                      <strong>Condition:</strong> <%= weather.condition %> |
+                      <strong>AQI:</strong> <%= aqi %>
+                    </small>
+                  </div>
+                </div>
+              </div>
+            <% } %>
             <p class="card-text"><strong>Location:</strong>
               <%= trail.location %>
             </p>
