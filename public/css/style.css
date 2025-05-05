@@ -194,3 +194,9 @@ ul.comments-list li {
 .mt-5 {
   margin-top: 3rem !important;
 }
+
+/* Weather icon sizing */
+.weather-icon {
+  width: 48px !important;
+  height: auto !important;
+}
