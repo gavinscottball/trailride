@@ -41,25 +41,6 @@
         </div>
     </nav>
     <div class="container mt-4">
-    <% if (weather) { %>
-    <div class="mb-4 p-3 bg-light rounded shadow-sm">
-      <h5>Current Conditions</h5>
-      <div class="d-flex align-items-center">
-        <img src="https://openweathermap.org/img/wn/<%= weather.icon %>@2x.png" alt="<%= weather.condition %>">
-        <div class="ms-3">
-          <p class="mb-1">
-            <strong>Temp:</strong> <%= weather.temp %>°F<br>
-            <strong>Wind:</strong> <%= weather.wind %> mph<br>
-            <strong>Condition:</strong> <%= weather.condition %>
-          </p>
-          <p class="mb-0">
-            <strong>AQI:</strong> <%= aqi %>
-            <% if (aqi === 1) { %> (Good) <% } else if (aqi === 2) { %> (Fair) <% } else if (aqi === 3) { %> (Moderate) <% } else if (aqi === 4) { %> (Poor) <% } else if (aqi === 5) { %> (Very Poor) <% } %>
-          </p>
-        </div>
-      </div>
-    </div>
-  <% } %>
     <% if (user) { %>
       <p>Welcome, <%= user.username %>! <a href="/logout">Logout</a></p>
     <% } else { %>
