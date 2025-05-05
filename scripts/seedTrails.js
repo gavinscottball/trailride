@@ -1,4 +1,6 @@
 // scripts/seedTrails.js
+// Load environment variables for database URI
+require('dotenv').config();
 const mongoose = require('mongoose');
 require('../models/Trail');
 const Trail = mongoose.model('Trail');
@@ -171,7 +173,9 @@ const sampleTrails = [
   }
 ];
 
-mongoose.connect('mongodb://localhost:27017/trailride', { useNewUrlParser: true, useUnifiedTopology: true })
+// Connect to MongoDB using environment variable if available
+const seedDbURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/trailride';
+mongoose.connect(seedDbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(async () => {
     await Trail.deleteMany({});
     await Trail.insertMany(sampleTrails);
